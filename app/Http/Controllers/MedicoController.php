@@ -15,7 +15,7 @@ class MedicoController extends Controller
      * 
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index()
+    public function index() : \Illuminate\Http\JsonResponse
     {
         try {
             $nome = request()->query('nome');
@@ -40,9 +40,11 @@ class MedicoController extends Controller
     /**
      * Cria um novo médico
      * 
+     * @param StoreMedicoRequest $request
+     * 
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(StoreMedicoRequest $request)
+    public function store(StoreMedicoRequest $request) : \Illuminate\Http\JsonResponse
     {
         try {
             $medico = Medico::create([

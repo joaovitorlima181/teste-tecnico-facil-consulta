@@ -10,7 +10,14 @@ use Illuminate\Support\Facades\Hash;
 class AuthController extends Controller
 {
 
-    public function register(StoreUserRequest $request)
+    /**
+     * Cria novo usuário
+     * 
+     * @param StoreUserRequest $request
+     * 
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function register(StoreUserRequest $request) : \Illuminate\Http\JsonResponse
     {
         try {
             $user = User::create([
@@ -35,11 +42,11 @@ class AuthController extends Controller
     }
 
     /**
-     * Get a JWT via given credentials.
+     * Realiza login do usuário, retornando o token JWT
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function login()
+    public function login() : \Illuminate\Http\JsonResponse
     {
         try {
             $credentials = request(['email', 'password']);
@@ -65,11 +72,11 @@ class AuthController extends Controller
     }
 
     /**
-     * Refresh a token.
+     * Atualiza o token JWT
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function refresh()
+    public function refresh() : \Illuminate\Http\JsonResponse
     {
         try {
             $success = $this->respondWithToken(auth('api')->refresh());
@@ -89,13 +96,13 @@ class AuthController extends Controller
     }
 
     /**
-     * Get the token array structure.
+     * Gera resposta com o token JWT
      *
-     * @param  string $token
+     * @param string $token Token JWT
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return array
      */
-    protected function respondWithToken($token)
+    protected function respondWithToken(string $token) : array
     {
         return [
             'access_token' => $token,

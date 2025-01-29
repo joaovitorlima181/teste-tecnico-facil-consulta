@@ -15,7 +15,7 @@ class CidadeController extends Controller
      * 
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index()
+    public function index() : \Illuminate\Http\JsonResponse
     {
         try {
             $nome = request()->query('nome');
@@ -35,7 +35,16 @@ class CidadeController extends Controller
         }
     }
 
-    public function medicos(int $id)
+    /**
+     * Lista todos os médicos de uma cidade
+     * 
+     * @param int $id Id da Cidade
+     * @queryParam string nome Nome do médico
+     * @queryParam int page Número da página
+     * 
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function medicos(int $id) : \Illuminate\Http\JsonResponse
     {
         try {
 

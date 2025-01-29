@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\Medico;
+use App\Models\Paciente;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +19,9 @@ class ConsultaFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'medico_id' => Medico::inRandomOrder()->first()->id,
+            'paciente_id' => Paciente::inRandomOrder()->first()->id,
+            'data' => fake()->date('Y-m-d H:i:s'),
         ];
     }
 }

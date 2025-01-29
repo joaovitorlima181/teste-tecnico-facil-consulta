@@ -5,14 +5,15 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StorePacienteRequest;
 use App\Http\Requests\UpdatePacienteRequest;
 use App\Models\Paciente;
-use Illuminate\Support\Facades\Log;
 
 class PacienteController extends Controller
 {
 
-
     /**
      * Listar pacientes
+     * 
+     * @query string $nome Nome do paciente
+     * @query int $page Número da página
      * 
      * @return \Illuminate\Http\Response
      */
@@ -32,6 +33,7 @@ class PacienteController extends Controller
             }
 
             return response()->json($pacientes);
+
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
@@ -73,9 +75,13 @@ class PacienteController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Cadastra um novo paciente
+     * 
+     * @param StorePacienteRequest $request
+     * 
+     * @return \Illuminate\Http\Response
      */
-    public function store(StorePacienteRequest $request)
+    public function store(StorePacienteRequest $request) : \Illuminate\Http\JsonResponse
     {
         try {
 
@@ -98,9 +104,14 @@ class PacienteController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Atualiza um paciente
+     * 
+     * @param UpdatePacienteRequest $request
+     * @param int $id Id do paciente
+     * 
+     * @return \Illuminate\Http\Response
      */
-    public function update(UpdatePacienteRequest $request, int $id)
+    public function update(UpdatePacienteRequest $request, int $id) : \Illuminate\Http\JsonResponse
     {
         try {
             
