@@ -23,8 +23,8 @@ class UpdatePacienteRequest extends FormRequest
     {
         //Cpf nao pode ser alterado
         return [
-            'nome' => ['string', 'max:255'],
-            'celular' => ['string', 'max:20'],
+            'nome' => ['required', 'string', 'max:255'],
+            'celular' => ['required', 'string', 'max:20'],
         ];
     }
 }
