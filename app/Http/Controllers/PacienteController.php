@@ -33,42 +33,6 @@ class PacienteController extends Controller
             }
 
             return response()->json($pacientes);
-
-        } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
-        }
-    }
-
-    /**
-     * Lista pacientes e consultas por médico
-     * 
-     * @param int $medicoId Id do médico
-     * 
-     *  @return \Illuminate\Http\Response
-     */
-    public function consultas(int $medicoId): \Illuminate\Http\JsonResponse
-    {
-        try {
-
-            $page = request()->query('page', 1);
-            $apenasAgendadas = request()->query('apenas-agendadas', false);
-
-            $pacientes = Paciente::whereHas('consultas', function ($query) use ($medicoId) {
-                $query->where('medico_id', $medicoId);
-            })
-                ->when($apenasAgendadas, function ($query) {
-                    $query->whereHas('consultas', function ($query) {
-                        $query->where('data', '>', now());
-                    });
-                })
-                ->with('consultas')
-                ->paginate(10, ['*'], 'page', $page);
-
-            if ($pacientes->isEmpty()) {
-                return response()->json(['error' => 'Paciente não encontrado'], 404);
-            }
-
-            return response()->json($pacientes);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
@@ -81,7 +45,7 @@ class PacienteController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function store(StorePacienteRequest $request) : \Illuminate\Http\JsonResponse
+    public function store(StorePacienteRequest $request): \Illuminate\Http\JsonResponse
     {
         try {
 
@@ -111,19 +75,18 @@ class PacienteController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdatePacienteRequest $request, int $id) : \Illuminate\Http\JsonResponse
+    public function update(UpdatePacienteRequest $request, int $id): \Illuminate\Http\JsonResponse
     {
         try {
-            
+
             $paciente = Paciente::findOrFail($id);
 
-            if ($request->cpf !== $paciente->cpf) {
+            if ($request->cpf != '') {
                 return response()->json(['error' => 'CPF não pode ser alterado'], 400);
             }
-            
+
             $paciente->update([
                 'nome' => $request->nome,
-                'cpf' => $request->cpf,
                 'celular' => $request->celular,
             ]);
 

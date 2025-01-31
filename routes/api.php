@@ -23,7 +23,7 @@ Route::group(['middleware' => 'api'], function () {
     Route::prefix('medicos')->group(function () {
         Route::get('/', [MedicoController::class, 'index']);
         Route::post('/', [MedicoController::class, 'store'])->middleware('auth:api');
-        Route::get('{id}/pacientes', [PacienteController::class, 'consultas'])->middleware('auth:api');
+        Route::get('{id}/pacientes', [MedicoController::class, 'pacientes'])->middleware('auth:api');
 
         Route::post('/consulta', [ConsultaController::class, 'store'])->middleware('auth:api');
     });
@@ -33,5 +33,7 @@ Route::group(['middleware' => 'api'], function () {
         Route::post('/', 'store');
         Route::post('{id}', 'update');
     });
+
+    Route::get('consultas', [ConsultaController::class, 'index'])->middleware('auth:api');
 
 });
