@@ -68,6 +68,9 @@ class MedicoController extends Controller
             })
             ->paginate(10, ['*'], 'page', $page);
 
+        if ($pacientes->isEmpty()) {
+            return response()->json(['error' => 'Paciente não encontrado'], 404);
+        }
 
         return response()->json([
             'pacientes' => $pacientes
